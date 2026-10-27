@@ -5,11 +5,11 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 load_dotenv()
 database_url = os.getenv("DATABASE_URL")
-print(database_url)
+
 engine = create_engine(
     database_url,
     pool_pre_ping=True,
-    connect_args={"ssl": "{}"}
+    connect_args={"ssl": {}}
 )
 
 SessionLocal = sessionmaker(

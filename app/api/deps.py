@@ -35,9 +35,6 @@ def require_roles(*allowed_roles: Role) -> Callable:
         user: Annotated[User, Depends(get_current_user)],
     ) -> User:
 
-        print("User role:", user.role)
-        print("Allowed roles:", allowed_roles)
-
         if user.role not in allowed_roles:
             raise HTTPException(
                 status_code=403,

@@ -1,9 +1,8 @@
 from uuid import UUID
 from decimal import Decimal
-from sqlalchemy import func, select
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.database.models import Transaction, PaymentMode
-from app.api.schemas import TransactionCreate
 from datetime import datetime, time, timedelta, date
 
 
