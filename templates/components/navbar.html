@@ -1,0 +1,20 @@
+
+<nav class="navbar">
+    <a href="/" class="brand">Valhala Games</a>
+{% if user is defined and user and user.role.value == "admin" %}
+
+    <div class="navbar-links">
+        <a href="/transactions">Transactions</a>
+        <a href="/game/new">Add Game</a>
+
+        <a href="/signup">Sign up</a>
+
+    </div>
+{% endif %}
+
+    <form action="/logout" method="get" class="logout-form">
+        <button type="submit" class="navbar-logout-btn">
+            Log Out
+        </button>
+    </form>
+</nav>

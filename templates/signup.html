@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | Valhala Games</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --teal: #13796d;
+            --teal-dark: #0b514b;
+            --text: #172b38;
+            --muted: #71869a;
+            --border: #d7e1e9;
+            --background: #f1f6f9;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", sans-serif;
+            color: var(--text);
+            background: var(--background);
+        }
+
+        /* Branding panel */
+        .brand-panel {
+            width: 36%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 25px;
+            text-align: center;
+            color: white;
+            background:
+                radial-gradient(ellipse at bottom, #15534f 0%, transparent 60%),
+                linear-gradient(145deg, #071a21, #0c3437 70%, #071a21);
+        }
+
+        .brand-mark {
+            color: #45c6a5;
+            font-size: 66px;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .brand-name {
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 800;
+            letter-spacing: 5px;
+        }
+
+        .brand-subtitle {
+            margin-top: 5px;
+            color: #45c6a5;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 8px;
+        }
+
+        .tagline {
+            margin-top: 30px;
+            color: #d8e7e7;
+            font-size: 19px;
+        }
+
+        /* Signup section */
+        .main-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 500px;
+            padding: 45px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 60px rgba(22, 48, 65, 0.09);
+        }
+
+        .signup-card h1 {
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+
+        .intro {
+            margin-bottom: 32px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            outline: none;
+            background: white;
+            color: var(--text);
+            font: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #9aabba;
+        }
+
+        input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(19, 121, 109, 0.12);
+        }
+
+        .signup-button {
+            width: 100%;
+            margin-top: 8px;
+            padding: 16px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(110deg, var(--teal-dark), var(--teal));
+            color: white;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .signup-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.94;
+        }
+
+        .login-prompt {
+            margin-top: 28px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login-prompt a {
+            color: var(--teal);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            margin-bottom: 20px;
+            padding: 12px;
+            border: 1px solid #f2c5c5;
+            border-radius: 8px;
+            background: #fff1f1;
+            color: #a12b2b;
+            font-size: 14px;
+        }
+
+        @media (max-width: 760px) {
+            body {
+                flex-direction: column;
+            }
+
+            .brand-panel {
+                width: 100%;
+                min-height: auto;
+                padding: 30px 20px;
+            }
+
+            .brand-mark {
+                font-size: 42px;
+                margin-bottom: 10px;
+            }
+
+            .brand-name {
+                font-size: 30px;
+            }
+
+            .brand-subtitle {
+                font-size: 14px;
+                letter-spacing: 6px;
+            }
+
+            .tagline {
+                margin-top: 15px;
+                font-size: 15px;
+            }
+
+            .main-panel {
+                padding: 25px 16px;
+            }
+
+            .signup-card {
+                padding: 30px 22px;
+            }
+
+            .signup-card h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="brand-panel">
+        <div class="brand-mark" aria-hidden="true">⚔</div>
+
+        <div class="brand-name">VALHALA</div>
+        <div class="brand-subtitle">GAMES</div>
+
+        <p class="tagline">Play. Compete. Win.</p>
+    </aside>
+
+    <main class="main-panel">
+        <section class="signup-card">
+            <h1>Create an Account</h1>
+
+            {% if error %}
+                <div class="error-message" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form action="/signup" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a strong password"
+                        autocomplete="new-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="signup-button">
+                    Create Account &rarr;
+                </button>
+            </form>
+
+            <p class="login-prompt">
+                Already have an account?
+                <a href="/login">Log in</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

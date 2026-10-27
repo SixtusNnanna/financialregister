@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% extends "base.html" %}
+    {% block title %}Transactions | Valhala Games{% endblock %}
+
+    {% block content %}
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+            padding: 30px 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .filters, .summary, .history {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 11px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            background: #2e6b63;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .summary p {
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .total {
+            font-size: 30px;
+            font-weight: bold;
+            color: #2e6b63;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8faf9;
+        }
+
+        .reset {
+            display: inline-block;
+            text-align: center;
+            padding: 11px;
+            text-decoration: none;
+            color: #2e6b63;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 25px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Transaction History</h1>
+
+    <form method="post" action="/transactions" class="filters">
+        <div>
+            <label for="game_id">Game</label>
+            <select id="game_id" name="game_id">
+                <option value="">All games</option>
+                {% for game in games %}
+                    <option
+                        value="{{ game.id }}"
+                        {% if selected_game_id == game.id|string %}selected{% endif %}
+                    >
+                        {{ game.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="transaction_date">Date</label>
+            <input
+                type="date"
+                id="transaction_date"
+                name="transaction_date"
+                value="{{ selected_date }}"
+            >
+        </div>
+
+        <div>
+            <label for="payment_mode">Payment Mode</label>
+            <select id="payment_mode" name="payment_mode">
+                <option value="">All payment modes</option>
+                {% for mode in payment_modes %}
+                    <option
+                        value="{{ mode.value }}"
+                        {% if selected_payment_mode == mode.value %}selected{% endif %}
+                    >
+                        {{ mode.value.replace('_', ' ').title() }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">Apply Filters</button>
+            <a class="reset" href="/transactions">Clear filters</a>
+        </div>
+    </form>
+
+    <section class="summary">
+        <p>Total amount for matching transactions</p>
+        <div class="total">
+            ₦{{ "{:,.2f}".format(total) }}
+        </div>
+    </section>
+
+    <section class="history">
+        <h2>Transactions</h2>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Amount</th>
+                        <th>Payment Mode</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>
+                            {{ transaction.game.name }}
+                        </td>
+                        <td>
+                            ₦{{ "{:,.2f}".format(transaction.amount) }}
+                        </td>
+                        <td>
+                            {{ transaction.payment_mode.value.replace('_', ' ').title() }}
+                        </td>
+                        <td>
+                            {{ transaction.created_at.strftime('%d %b %Y, %H:%M') }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="empty">
+                            No transactions match your filters.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
+</div>
+
+</body>
+</html>
