@@ -1,10 +1,8 @@
 from typing import Annotated
 from collections.abc import Callable
 from uuid import UUID
-
 from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-
 from app.database.models import User, Role
 from app.database.session import get_db
 
