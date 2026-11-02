@@ -74,7 +74,7 @@ class TransactionService:
                 Transaction.payment_mode == payment_mode
             )
 
-        total = query.with_entities(
+        raw_total = query.with_entities(
             func.sum(Transaction.amount)
         ).scalar()
 
@@ -82,16 +82,22 @@ class TransactionService:
             Transaction.created_at.desc()
         ).all()
 
-        total_ = Decimal(str(total)) if total is not None else Decimal("0.00")
+        total = (
+            Decimal(str(raw_total))
+            if raw_total is not None
+            else Decimal("0.00")
+        )
 
         if payment_mode == PaymentMode.BANK_TRANSFER:
             total = self.bank_transfer_fee(total)
+            print(f"Total after bank transfer fee: {total}")
 
         elif payment_mode == PaymentMode.LANDMARK_APP:
             total = self.get_land_mark_app_fee(total)
+            print(f"Total after landmark app fee: {total}")
         return {
             "transactions": transactions,
-            "total": total_
+            "total": total
         }
 
     @staticmethod
@@ -101,5 +107,3 @@ class TransactionService:
     @staticmethod
     def get_land_mark_app_fee(amount: Decimal) -> Decimal:
         return amount - (Decimal("0.15") * amount)
-
-
