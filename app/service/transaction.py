@@ -81,7 +81,9 @@ class TransactionService:
         transactions = query.order_by(
             Transaction.created_at.desc()
         ).all()
-        
+
+        total_ = Decimal(str(total)) if total is not None else Decimal("0.00")
+
         if payment_mode == PaymentMode.BANK_TRANSFER:
             total = self.bank_transfer_fee(total)
 
@@ -89,7 +91,7 @@ class TransactionService:
             total = self.get_land_mark_app_fee(total)
         return {
             "transactions": transactions,
-            "total": total if total is not None else Decimal("0.00"),
+            "total": total_
         }
 
     @staticmethod
