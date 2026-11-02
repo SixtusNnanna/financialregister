@@ -69,6 +69,7 @@ class TransactionService:
                 Transaction.created_at < end,
             )
         if payment_mode is not None:
+
             query = query.filter(
                 Transaction.payment_mode == payment_mode
             )
@@ -80,7 +81,23 @@ class TransactionService:
         transactions = query.order_by(
             Transaction.created_at.desc()
         ).all()
+        
+        if payment_mode == PaymentMode.BANK_TRANSFER:
+            total = self.bank_transfer_fee(total)
+
+        elif payment_mode == PaymentMode.LANDMARK_APP:
+            total = self.get_land_mark_app_fee(total)
         return {
             "transactions": transactions,
             "total": total if total is not None else Decimal("0.00"),
         }
+
+    @staticmethod
+    def bank_transfer_fee(amount: Decimal) -> Decimal:
+        return amount - (Decimal("0.2323") * amount)
+
+    @staticmethod
+    def get_land_mark_app_fee(amount: Decimal) -> Decimal:
+        return amount - (Decimal("0.15") * amount)
+
+
