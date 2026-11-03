@@ -77,7 +77,6 @@ class TransactionService:
         raw_total = query.with_entities(
             func.sum(Transaction.amount)
         ).scalar()
-
         transactions = query.order_by(
             Transaction.created_at.desc()
         ).all()
@@ -94,7 +93,8 @@ class TransactionService:
 
         elif payment_mode == PaymentMode.LANDMARK_APP:
             total = self.get_land_mark_app_fee(total)
-            print(f"Total after landmark app fee: {total}")
+
+
         return {
             "transactions": transactions,
             "total": total
